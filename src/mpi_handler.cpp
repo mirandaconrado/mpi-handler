@@ -2,14 +2,14 @@
 
 MPIHandler::MPIHandler(boost::mpi::communicator& world):
   world_(world) {
-    clear_default_handler();
+    clear_default();
 }
 
-void MPIHandler::set_default_handler(default_handler_type handler) {
+void MPIHandler::set_default(default_handler_type handler) {
   default_handler_ = handler;
 }
 
-void MPIHandler::clear_default_handler() {
+void MPIHandler::clear_default() {
   default_handler_ = [](int, int) { return false; };
 }
 

@@ -4,11 +4,11 @@
 
 #include "test_mpi.hpp"
 
-TEST(MPIHandler, SetDefaultHandler) {
+TEST(MPIHandler, InsertGenericHandler) {
   int received_tag = 0;
 
   MPIHandler handler(world);
-  handler.set_default(
+  handler.insert_generic(
       [&](int source, int tag) { received_tag = tag; return false; });
   world.barrier();
 
@@ -24,13 +24,13 @@ TEST(MPIHandler, SetDefaultHandler) {
   world.barrier();
 }
 
-TEST(MPIHandler, ClearDefaultHandler) {
+TEST(MPIHandler, ClearGenericHandler) {
   int received_tag = 0;
 
   MPIHandler handler(world);
-  handler.set_default(
+  handler.insert_generic(
       [&](int source, int tag) { received_tag = tag; return false; });
-  handler.clear_default();
+  handler.clear_generic();
   world.barrier();
 
   if (world.rank() == 1) {

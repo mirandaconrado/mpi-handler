@@ -1,16 +1,14 @@
 #include "mpi_handler.hpp"
 
 MPIHandler::MPIHandler(boost::mpi::communicator& world):
-  world_(world) {
-    clear_default();
+  world_(world) { }
+
+void MPIHandler::insert_generic(generic_handler_type handler) {
+  generic_handlers_.push_back(handler);
 }
 
-void MPIHandler::set_default(default_handler_type handler) {
-  default_handler_ = handler;
-}
-
-void MPIHandler::clear_default() {
-  default_handler_ = [](int, int) { return false; };
+void MPIHandler::clear_generic() {
+  generic_handlers_.clear();
 }
 
 void MPIHandler::insert(int tag, handler_type handler) {
@@ -37,16 +35,19 @@ void MPIHandler::run() {
       bool processed = false;
 
       auto it = map_tags_to_handlers_.find(status.tag());
-      if (it != map_tags_to_handlers_.end()) {
+      if (it != map_tags_to_handlers_.end())
         for (auto& handler : it->second)
           if (handler(status.source())) {
             processed = true;
             break;
           }
-      }
 
       if (!processed)
-        processed = default_handler_(status.source(), status.tag());
+        for (auto& handler : generic_handlers_)
+          if (handler(status.source(), status.tag())) {
+            processed = true;
+            break;
+          }
 
       if (!processed)
         stop = true;

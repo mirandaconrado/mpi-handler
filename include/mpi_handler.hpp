@@ -1,15 +1,15 @@
 #ifndef __MPI_HANDLER_HPP__
 #define __MPI_HANDLER_HPP__
 
-#include <boost/function.hpp>
 #include <boost/mpi/communicator.hpp>
+#include <functional>
 #include <map>
 #include <list>
 
 class MPIHandler {
   public:
-    typedef boost::function<bool (int)> handler_type;
-    typedef boost::function<bool (int, int)> default_handler_type;
+    typedef std::function<bool (int)> handler_type;
+    typedef std::function<bool (int, int)> default_handler_type;
 
     MPIHandler(boost::mpi::communicator& world);
 

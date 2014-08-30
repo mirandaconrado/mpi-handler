@@ -23,8 +23,10 @@ There are two kinds of handlers:
 The handlers are called from specific to generic and in the order in which they
 were inserted.
 
-Messages are only processed when the method run() is called and there's no
-inherit support for threads, which can be implemented in the handler functions.
+Messages are only processed when the method run() is called, which returns if
+there are no more MPI messages available or the current message wasn't
+handled by any handler, and there's no inherit support for threads, which can
+be implemented in the handler functions.
 
 Example:
 ```

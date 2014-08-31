@@ -1,7 +1,8 @@
 MPI Handler
 ==============
 
-Simple C++ class to handle messages on different MPI tags.
+Simple C++ class to handle messages on different MPI tags. Requires C++11 and
+boost, which handles the MPI.
 
 In a project, many tags may be user by different modules. If the order in which
 they are processed isn't important, the MPI could be probed by each module

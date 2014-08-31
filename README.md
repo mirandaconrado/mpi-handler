@@ -1,5 +1,7 @@
-mpi-handler
+MPI Handler
 ==============
+
+Simple C++ class to handle messages on different MPI tags.
 
 In a project, many tags may be user by different modules. If the order in which
 they are processed isn't important, the MPI could be probed by each module
@@ -15,15 +17,15 @@ required tag is received. This is the problem this class solves.
 
 There are two kinds of handlers:
 
-1. handler for specific tags, which receive an integer describing the source of
+1. handlers for specific tags, which receive an integer describing the source of
    the message and returns true if the message was consumed.
-2. generic handler, which can handle messages all other handlers ignored and
+2. generic handlers, which can handle messages all other handlers ignored and
    receives the source and tag, returning true if the message was consumed.
 
 The handlers are called from specific to generic and in the order in which they
 were inserted.
 
-Messages are only processed when the method run() is called, which returns if
+Messages are only processed when the method `run()` is called, which returns if
 there are no more MPI messages available or the current message wasn't
 handled by any handler, and there's no inherit support for threads, which can
 be implemented in the handler functions.
